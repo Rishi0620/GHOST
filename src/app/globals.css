@@ -1,26 +1,128 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * GHOST design system — surveillance-dashboard dark. Cold, data-forward,
+ * slightly unsettling. Single dark theme; not responsive below 1024px.
+ */
+@theme {
+  --color-bg: #0a0a0f;
+  --color-surface: #111118;
+  --color-elevated: #1a1a24;
+  --color-border: #2a2a3a;
+  --color-border-bright: #3a3a4f;
+
+  --color-node: #4a9eff;
+  --color-tech: #4a9eff;
+  --color-political: #ff6b6b;
+  --color-lifestyle: #51cf66;
+  --color-niche: #cc5de8;
+  --color-bridge: #ffd43b;
+
+  --color-shell: #ff4444;
+  --color-deep: #44ff88;
+
+  --color-text: #e8e8f0;
+  --color-text-secondary: #8888aa;
+  --color-text-muted: #55556a;
+
+  --color-accent: #4a9eff;
+  --color-danger: #ff4444;
+  --color-success: #44ff88;
+
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-mono-jb), ui-monospace, monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Thin, cold scrollbars everywhere. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-bright) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-bright);
+}
+
+@keyframes ghost-pulse {
+  0% { opacity: 0.9; }
+  50% { opacity: 0.35; }
+  100% { opacity: 0.9; }
+}
+.animate-ghost-pulse {
+  animation: ghost-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes ghost-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-ghost-fade-in {
+  animation: ghost-fade-in 0.4s ease-out both;
+}
+
+@keyframes ghost-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Scrubber slider. */
+.ghost-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    var(--color-accent) 0%,
+    var(--color-accent) var(--pct, 0%),
+    var(--color-border) var(--pct, 0%),
+    var(--color-border) 100%
+  );
+  cursor: pointer;
+}
+.ghost-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--color-text);
+  border: 2px solid var(--color-accent);
+  cursor: pointer;
+}
+.ghost-range::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--color-text);
+  border: 2px solid var(--color-accent);
+  cursor: pointer;
+}
+
+/* Faint grid texture for the surveillance-console feel. */
+.ghost-grid {
+  background-image:
+    linear-gradient(var(--color-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: -1px -1px;
+  opacity: 0.04;
 }
